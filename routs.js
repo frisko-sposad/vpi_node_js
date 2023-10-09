@@ -63,6 +63,20 @@ router.post('/add_user', async function (req, res) {
   );
 });
 
+// показать всех юзеров
+router.get('/user/:userId', function (req, res) {
+  // res.send('users');
+  res.header('Access-Control-Allow-Origin', '*');
+  console.log(req.params);
+  pool.query(
+    `SELECT hero_id, hero_name, hero_title, hero_name, login, games_id, locations.locations_name FROM heroes JOIN (houses, users, locations) ON (heroes.hero_house = houses.house_id  AND heroes.hero_owner = users.user_id AND heroes.hero_location = locations.locations_id) WHERE heroes.hero_owner = '${req.params.userId}'`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(results);
+    }
+  );
+});
+
 export default router;
 // const { user_id, login, pass, info } = req.body;
 //   console.log(user_id, login, pass, info);
