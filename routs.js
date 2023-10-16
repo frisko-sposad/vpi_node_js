@@ -69,14 +69,21 @@ router.get('/user/:userId', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   console.log(req.params);
   pool.query(
-    `SELECT hero_id, hero_name, hero_title, hero_name, login, games_id, locations.locations_name FROM heroes JOIN (houses, users, locations) ON (heroes.hero_house = houses.house_id  AND heroes.hero_owner = users.user_id AND heroes.hero_location = locations.locations_id) WHERE heroes.hero_owner = '${req.params.userId}'`,
+    `SELECT hero_id, hero_name, hero_title, hero_name, login, games_id, locations.locations_name,  locations.locations_id, concat_view.concat_loc FROM heroes JOIN (houses, users, locations) ON (heroes.hero_house = houses.house_id  AND heroes.hero_owner = users.user_id AND heroes.hero_location = locations.locations_id) JOIN (SELECT  path_graph_location_id, GROUP_CONCAT(locations.locations_name) as concat_loc FROM locations JOIN (path_graph) ON ( locations.locations_id= path_graph_location_near)  GROUP BY path_graph_location_id) as concat_view ON locations.locations_id=path_graph_location_id WHERE heroes.hero_owner = '${req.params.userId}'`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
     }
   );
+  console.log(res);
 });
 
 export default router;
 // const { user_id, login, pass, info } = req.body;
 //   console.log(user_id, login, pass, info);
+
+// запрос на список путей в соседние локации строкой
+//SELECT GROUP_CONCAT(locations.locations_name) FROM locations JOIN (path_graph) ON ( locations.locations_id= path_graph_location_near) WHERE path_graph_location_id = 2
+// SELECT  path_graph_location_id, GROUP_CONCAT(locations.locations_name) FROM locations JOIN (path_graph) ON ( locations.locations_id= path_graph_location_near) GROUP BY path_graph_location_id
+// SELECT * FROM locations JOIN (SELECT  path_graph_location_id, GROUP_CONCAT(locations.locations_name) FROM locations JOIN (path_graph) ON ( locations.locations_id= path_graph_location_near)  GROUP BY path_graph_location_id) as ttt ON locations.locations_id=path_graph_location_id
+// SELECT hero_id, hero_name, hero_title, hero_name, login, games_id, locations.locations_name,  locations.locations_id, concat_view.concat_loc FROM heroes JOIN (houses, users, locations) ON (heroes.hero_house = houses.house_id  AND heroes.hero_owner = users.user_id AND heroes.hero_location = locations.locations_id) JOIN (SELECT  path_graph_location_id, GROUP_CONCAT(locations.locations_name) as concat_loc FROM locations JOIN (path_graph) ON ( locations.locations_id= path_graph_location_near)  GROUP BY path_graph_location_id) as concat_view ON locations.locations_id=path_graph_location_id WHERE heroes.hero_owner = 40
