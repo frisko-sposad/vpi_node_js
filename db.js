@@ -6,3 +6,5 @@ export const pool = mysql.createPool({
   database: 'safiko_vpi_game',
   password: 'vpi_game2023',
 });
+
+// если будут проблемы проверить свой айпи и внести его в доступные для подключения к бд
