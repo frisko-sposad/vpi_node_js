@@ -6,4 +6,8 @@ export const output = {
 };
 export const plugins = [new HtmlWebpackPlugin()];
 
+// module.exports = {
+//   mode: 'development',
+// };
+
 export default {};
