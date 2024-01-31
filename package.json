@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Safin_Aleksei",
   "license": "ISC",
