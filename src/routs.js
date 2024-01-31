@@ -12,6 +12,10 @@ router.get('/', function (req, res) {
   res.send('Home Page');
 });
 
+router.get('/page1', function (req, res) {
+  res.send('Page1');
+});
+
 // показать всех юзеров
 router.get('/users', function (req, res) {
   // res.send('users');
