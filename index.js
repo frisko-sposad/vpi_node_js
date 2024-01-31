@@ -1,5 +1,5 @@
 import express, { json } from 'express';
-import router from './routs.js';
+import router from './src/routs.js';
 var app = express();
 
 const PORT = 5000;
