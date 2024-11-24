@@ -18,6 +18,7 @@ router.get('/page1', function (req, res) {
 
 // показать всех юзеров
 router.get('/users', function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
   pool.query('SELECT * FROM users', function (err, results) {
@@ -30,6 +31,7 @@ router.get('/users', function (req, res) {
 // показать юзера по id
 router.get('/show_users/:userId', function (req, res) {
   // res.send('users');
+  res.header('Access-Control-Allow-Origin', '*');
   const { userId } = req.params;
   pool.query(
     `SELECT * FROM users WHERE user_id = ${userId}`,
@@ -43,6 +45,7 @@ router.get('/show_users/:userId', function (req, res) {
 
 // Удалить юзера по id
 router.delete('/delete_users/:userId', function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
   // res.send('users');
   const { userId } = req.params;
   pool.query(
@@ -56,6 +59,7 @@ router.delete('/delete_users/:userId', function (req, res) {
 
 // добавить юзера
 router.post('/add_user', async function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
   const { user_id, login, pass, role, info } = await req.body;
   console.log(user_id, login, pass, role, info);
   pool.query(
