@@ -59,7 +59,7 @@ router.post('/add_user', async function (req, res) {
   const { user_id, login, pass, role, info } = await req.body;
   console.log(user_id, login, pass, role, info);
   pool.query(
-    `INSERT INTO users (user_id, login, pass, info) VALUES (${user_id}, '${login}', '${pass}', '${role}', '${info}')`,
+    `INSERT INTO users (user_id, login, pass, role, info) VALUES (${user_id}, '${login}', '${pass}', '${role}', '${info}')`,
     function (err, results) {
       if (err) console.log(err);
       res.json(`Добавлен юзер: login: ${login}`);
