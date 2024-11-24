@@ -56,10 +56,10 @@ router.delete('/delete_users/:userId', function (req, res) {
 
 // добавить юзера
 router.post('/add_user', async function (req, res) {
-  const { user_id, login, pass, info } = await req.body;
-  console.log(user_id, login, pass, info);
+  const { user_id, login, pass, role, info } = await req.body;
+  console.log(user_id, login, pass, role, info);
   pool.query(
-    `INSERT INTO users (user_id, login, pass, info) VALUES (${user_id}, '${login}', '${pass}', '${info}')`,
+    `INSERT INTO users (user_id, login, pass, info) VALUES (${user_id}, '${login}', '${pass}', '${role}', '${info}')`,
     function (err, results) {
       if (err) console.log(err);
       res.json(`Добавлен юзер: login: ${login}`);
@@ -67,7 +67,7 @@ router.post('/add_user', async function (req, res) {
   );
 });
 
-// показать всех юзеров
+// показать юзера
 router.get('/user/:userId', function (req, res) {
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
