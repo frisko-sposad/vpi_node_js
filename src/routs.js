@@ -1,6 +1,10 @@
 import { Router } from 'express';
 import { pool } from './db.js';
+import cors from 'cors';
 const router = Router();
+
+const server = express();
+server.use(cors());
 
 // middleware that is specific to this router
 // router.use(function timeLog(req, res, next) {
