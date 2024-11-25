@@ -94,7 +94,7 @@ router.get('/feods/:userId', function (req, res) {
 
   console.log(req.params);
   pool.query(
-    `SELECT * FROM locations WHERE locations_owner = '${req.params.userId}'`,
+    `SELECT * FROM locations JOIN users ON users.user_id = locations.locations_owner WHERE locations.locations_owner = '${req.params.userId}'`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
