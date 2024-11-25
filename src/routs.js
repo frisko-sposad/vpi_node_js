@@ -71,7 +71,7 @@ router.post('/add_user', async function (req, res) {
   );
 });
 
-// показать юзера
+// Персонажи и соседние феоды с кем граничит
 router.get('/user/:userId', function (req, res) {
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
@@ -79,6 +79,22 @@ router.get('/user/:userId', function (req, res) {
   console.log(req.params);
   pool.query(
     `SELECT hero_id, hero_name, hero_title, hero_name, login, games_id, locations.locations_name,  locations.locations_id, concat_view.concat_loc FROM heroes JOIN (houses, users, locations) ON (heroes.hero_house = houses.house_id  AND heroes.hero_owner = users.user_id AND heroes.hero_location = locations.locations_id) JOIN (SELECT  path_graph_location_id, GROUP_CONCAT(locations.locations_name) as concat_loc FROM locations JOIN (path_graph) ON ( locations.locations_id= path_graph_location_near)  GROUP BY path_graph_location_id) as concat_view ON locations.locations_id=path_graph_location_id WHERE heroes.hero_owner = '${req.params.userId}'`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(results);
+    }
+  );
+  console.log(res);
+});
+
+// Феоды игрока
+router.get('/feods/:userId', function (req, res) {
+  // res.send('users');
+  res.header('Access-Control-Allow-Origin', '*');
+
+  console.log(req.params);
+  pool.query(
+    `SELECT * FROM locations WHERE locations_owner = '${req.params.userId}'`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
