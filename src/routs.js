@@ -57,20 +57,6 @@ router.delete('/delete_users/:userId', function (req, res) {
   );
 });
 
-// добавить юзера
-router.post('/add_user', async function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
-  const { user_id, login, pass, role, info } = await req.body;
-  console.log(user_id, login, pass, role, info);
-  pool.query(
-    `INSERT INTO users (user_id, login, pass, role, info) VALUES (${user_id}, '${login}', '${pass}', '${role}', '${info}')`,
-    function (err, results) {
-      if (err) console.log(err);
-      res.json(`Добавлен юзер: login: ${login}`);
-    }
-  );
-});
-
 // Персонажи и соседние феоды с кем граничит
 router.get('/user/:userId', function (req, res) {
   // res.send('users');
@@ -103,6 +89,34 @@ router.get('/feods/:userId', function (req, res) {
   console.log(res);
 });
 
+// добавить юзера
+router.post('/add_user', async function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  const { user_id, login, pass, role, info } = await req.body;
+  console.log(user_id, login, pass, role, info);
+  pool.query(
+    `INSERT INTO users (user_id, login, pass, role, info) VALUES (${user_id}, '${login}', '${pass}', '${role}', '${info}')`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(`Добавлен юзер: login: ${login}`);
+    }
+  );
+});
+
+// добавить феод
+router.post('/add_feod', async function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  const {} = await req.body;
+
+  pool.query(
+    `INSERT INTO locations (mines_peasent, forest_peasent) VALUES (123,123);`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(`Добавлен feod`);
+    }
+  );
+});
+
 // Обновить данные по феоду
 router.put('/update_feod', async function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -131,9 +145,7 @@ router.put('/update_feod', async function (req, res) {
     `UPDATE locations SET mines_peasent = ${mines_peasent}, forest_peasent = ${forest_peasent}, horses_peasent = ${horses_peasent}, skins_peasent = ${skins_peasent}, food_peasent = ${food_peasent}, mines_slave = ${mines_slave}, forest_slave = ${forest_slave}, horses_slave = ${horses_slave}, skins_slave = ${skins_slave}, food_slave = ${food_slave}, mines_limits = ${mines_limits}, forest_limits = ${forest_limits}, horses_limits = ${horses_limits}, skins_limits = ${skins_limits}, food_limits = ${food_limits}, unused_peasents = ${unused_peasents}, unused_slaves = ${unused_slaves} WHERE locations.locations_id = ${locations_id};`,
     function (err, results) {
       if (err) console.log(err);
-      results.json(
-        `Обновлены данные по феоду: ${locations_id} ${locations_name}`
-      );
+      res.json(`Обновлены данные по феоду: ${locations_id} ${locations_name}`);
     }
   );
 });
