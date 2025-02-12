@@ -145,7 +145,29 @@ router.put('/update_feod', async function (req, res) {
     `UPDATE locations SET mines_peasent = ${mines_peasent}, forest_peasent = ${forest_peasent}, horses_peasent = ${horses_peasent}, skins_peasent = ${skins_peasent}, food_peasent = ${food_peasent}, mines_slave = ${mines_slave}, forest_slave = ${forest_slave}, horses_slave = ${horses_slave}, skins_slave = ${skins_slave}, food_slave = ${food_slave}, mines_limits = ${mines_limits}, forest_limits = ${forest_limits}, horses_limits = ${horses_limits}, skins_limits = ${skins_limits}, food_limits = ${food_limits}, unused_peasents = ${unused_peasents}, unused_slaves = ${unused_slaves} WHERE locations.locations_id = ${locations_id};`,
     function (err, results) {
       if (err) console.log(err);
-      res.json(`Обновлены данные по феоду: ${locations_id} ${locations_name}`);
+      res.json(
+        `Обновлены данные по феоду: ${
+          (locations_id,
+          locations_name,
+          mines_peasent,
+          forest_peasent,
+          horses_peasent,
+          skins_peasent,
+          food_peasent,
+          mines_slave,
+          forest_slave,
+          horses_slave,
+          skins_slave,
+          food_slave,
+          mines_limits,
+          forest_limits,
+          horses_limits,
+          skins_limits,
+          food_limits,
+          unused_peasents,
+          unused_slaves)
+        }`
+      );
     }
   );
 });
