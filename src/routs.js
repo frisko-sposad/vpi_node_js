@@ -73,6 +73,20 @@ router.get('/user/:userId', function (req, res) {
   console.log(res);
 });
 
+// Отряды
+router.get('/squad/:userId', function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  console.log(req.params);
+  pool.query(
+    `SELECT heroes.hero_owner,heroes.hero_id, heroes.hero_name, locations.locations_name, units.unit_name, units_squad.number FROM units_squad JOIN (locations, heroes, units) ON ( units_squad.units_squad_hero_id = heroes.hero_id AND units_squad.squad_location_id = locations.locations_id AND units_squad.units_squad_unit_id = units.unit_id) WHERE heroes.hero_owner = '${req.params.userId}' ORDER BY heroes.hero_name ASC`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(results);
+    }
+  );
+  console.log(res);
+});
+
 // Феоды игрока
 router.get('/feods/:userId', function (req, res) {
   // res.send('users');
@@ -145,7 +159,7 @@ router.put('/update_feod', async function (req, res) {
     `UPDATE locations SET mines_peasent = ${mines_peasent}, forest_peasent = ${forest_peasent}, horses_peasent = ${horses_peasent}, skins_peasent = ${skins_peasent}, food_peasent = ${food_peasent}, mines_slave = ${mines_slave}, forest_slave = ${forest_slave}, horses_slave = ${horses_slave}, skins_slave = ${skins_slave}, food_slave = ${food_slave}, mines_limits = ${mines_limits}, forest_limits = ${forest_limits}, horses_limits = ${horses_limits}, skins_limits = ${skins_limits}, food_limits = ${food_limits}, unused_peasents = ${unused_peasents}, unused_slaves = ${unused_slaves} WHERE locations.locations_id = ${locations_id};`,
     function (err, results) {
       if (err) console.log(err);
-      res.json(`Феод ${locations_name} обновлён`);
+      res.json(`Феод "${locations_name}" обновлён`);
     }
   );
 });
