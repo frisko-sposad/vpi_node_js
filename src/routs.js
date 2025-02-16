@@ -74,7 +74,7 @@ router.get('/user/:userId', function (req, res) {
 });
 
 // Отряды
-router.get('/squad/:userId', function (req, res) {
+router.get('/user_squads/:userId', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   console.log(req.params);
   pool.query(
