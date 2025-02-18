@@ -87,7 +87,7 @@ router.get('/user_squads/:userId', function (req, res) {
   console.log(res);
 });
 
-// Феоды игрока
+// Информация по феоду
 router.get('/feods/:userId', function (req, res) {
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
@@ -101,6 +101,40 @@ router.get('/feods/:userId', function (req, res) {
     }
   );
   console.log(res);
+});
+
+// Информация по феоду NEW
+router.get('/feods-info/:userId', function (req, res) {
+  // res.send('users');
+  res.header('Access-Control-Allow-Origin', '*');
+  pool.query(
+    `SELECT * FROM locations_info 
+JOIN users ON users.user_id = locations_info.locations_user_id
+JOIN locations_production ON locations_production.locations_id = locations_info.locations_id
+JOIN locations_resource ON locations_resource.locations_id = locations_info.locations_id
+WHERE locations_info.locations_user_id = '${req.params.userId}'`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(results);
+    }
+  );
+});
+
+// Информация по гарнизону феода
+router.get('/feods-army/:userId', function (req, res) {
+  // res.send('users');
+  res.header('Access-Control-Allow-Origin', '*');
+  pool.query(
+    `SELECT * FROM locations_info 
+JOIN users ON users.user_id = locations_info.locations_user_id
+JOIN locations_army ON locations_army.locations_army_location_id = locations_info.locations_id
+JOIN units ON units.unit_id = locations_army.locations_army_unit_id
+WHERE locations_info.locations_user_id = '${req.params.userId}' ORDER by locations_info.locations_id`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(results);
+    }
+  );
 });
 
 // добавить юзера
