@@ -108,7 +108,28 @@ router.get('/feods-info/:userId', function (req, res) {
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
-    `SELECT * FROM locations_info 
+    `SELECT 
+locations_info.locations_id,
+locations_info.locations_name,
+users.login,
+locations_production.mines_peasent,
+locations_production.mines_slave,
+locations_production.mines_limits,
+locations_production.forest_peasent,
+locations_production.forest_slave,
+locations_production.forest_limits,
+locations_production.horses_peasent,
+locations_production.horses_slave,
+locations_production.horses_limits,
+locations_production.skins_peasent,
+locations_production.skins_slave,
+locations_production.skins_limits,
+locations_production.food_peasent,
+locations_production.food_slave,
+locations_production.food_limits,
+locations_production.unused_peasents,
+locations_production.unused_slaves
+FROM locations_info 
 JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN locations_production ON locations_production.locations_id = locations_info.locations_id
 JOIN locations_resource ON locations_resource.locations_id = locations_info.locations_id
@@ -125,7 +146,13 @@ router.get('/feods-army/:userId', function (req, res) {
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
-    `SELECT * FROM locations_info 
+    `SELECT 
+locations_info.locations_id, 
+locations_info.locations_name, 
+users.user_id, users.login,  
+locations_army.locations_army_number,
+units.unit_name,
+unit_price FROM locations_info 
 JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN locations_army ON locations_army.locations_army_location_id = locations_info.locations_id
 JOIN units ON units.unit_id = locations_army.locations_army_unit_id
