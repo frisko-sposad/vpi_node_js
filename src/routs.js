@@ -155,6 +155,7 @@ locations_production.food_slave,
 locations_production.food_limits,
 locations_production.unused_peasents,
 locations_production.unused_slaves,
+army_prise_table.army_number,
 army_prise_table.army_prise
 FROM locations_info 
 JOIN users ON users.user_id = locations_info.locations_user_id
@@ -165,7 +166,8 @@ locations_info.locations_id,
 locations_info.locations_name,
 users.user_id,
 users.login,
-sum(units.unit_price * locations_army.locations_army_number) as army_prise FROM locations_info
+sum(units.unit_price * locations_army.locations_army_number) as army_prise,
+sum(locations_army.locations_army_number) as army_number FROM locations_info
 JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN locations_army ON locations_army.locations_army_location_id = locations_info.locations_id
 JOIN units ON units.unit_id = locations_army.locations_army_unit_id
