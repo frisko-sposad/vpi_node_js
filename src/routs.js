@@ -134,7 +134,7 @@ router.get('/feods-info/:userId', function (req, res) {
     // JOIN locations_production ON locations_production.locations_id = locations_info.locations_id
     // JOIN locations_resource ON locations_resource.locations_id = locations_info.locations_id
     // WHERE locations_info.locations_user_id = '${req.params.userId}'`,
-    `SSELECT 
+    `SELECT 
 locations_info.locations_id,
 locations_info.locations_name,
 users.login,
