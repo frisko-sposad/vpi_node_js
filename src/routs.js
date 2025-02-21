@@ -155,6 +155,12 @@ locations_production.food_slave,
 locations_production.food_limits,
 locations_production.unused_peasents,
 locations_production.unused_slaves,
+(mines_peasent + forest_peasent + horses_peasent + skins_peasent + food_peasent) as work_peasent,
+(mines_slave + forest_slave + horses_slave + skins_slave + food_slave) as work_slave,
+(mines_limits + forest_limits + skins_limits + horses_limits + food_limits) as work_limits,
+(mines_peasent + forest_peasent + skins_peasent + horses_peasent + food_peasent + unused_peasents) as all_peasent,
+(mines_slave + forest_slave + skins_slave + horses_slave + food_slave + unused_slaves) as all_slave,
+(mines_peasent + forest_peasent + horses_peasent + skins_peasent + food_peasent + unused_peasents + mines_slave + forest_slave + horses_slave + skins_slave + food_slave + unused_slaves) as all_peasent_and_slave,
 army_prise_table.army_number,
 army_prise_table.army_prise
 FROM locations_info 
