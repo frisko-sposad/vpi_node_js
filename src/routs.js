@@ -103,37 +103,11 @@ router.get('/feods/:userId', function (req, res) {
   console.log(res);
 });
 
-// Информация по феоду NEW
+// Информация по рабочим доходы и затраты феоду NEW
 router.get('/feods-info/:userId', function (req, res) {
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
-    //     `SELECT
-    // locations_info.locations_id,
-    // locations_info.locations_name,
-    // users.login,
-    // locations_production.mines_peasent,
-    // locations_production.mines_slave,
-    // locations_production.mines_limits,
-    // locations_production.forest_peasent,
-    // locations_production.forest_slave,
-    // locations_production.forest_limits,
-    // locations_production.horses_peasent,
-    // locations_production.horses_slave,
-    // locations_production.horses_limits,
-    // locations_production.skins_peasent,
-    // locations_production.skins_slave,
-    // locations_production.skins_limits,
-    // locations_production.food_peasent,
-    // locations_production.food_slave,
-    // locations_production.food_limits,
-    // locations_production.unused_peasents,
-    // locations_production.unused_slaves
-    // FROM locations_info
-    // JOIN users ON users.user_id = locations_info.locations_user_id
-    // JOIN locations_production ON locations_production.locations_id = locations_info.locations_id
-    // JOIN locations_resource ON locations_resource.locations_id = locations_info.locations_id
-    // WHERE locations_info.locations_user_id = '${req.params.userId}'`,
     `SELECT 
 locations_info.locations_id,
 locations_info.locations_name,
@@ -166,7 +140,6 @@ army_prise_table.army_prise
 FROM locations_info 
 JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN locations_production ON locations_production.locations_id = locations_info.locations_id
-JOIN locations_resource ON locations_resource.locations_id = locations_info.locations_id
 JOIN (SELECT
 locations_info.locations_id,
 locations_info.locations_name,
@@ -178,6 +151,34 @@ JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN locations_army ON locations_army.locations_army_location_id = locations_info.locations_id
 JOIN units ON units.unit_id = locations_army.locations_army_unit_id
 WHERE locations_info.locations_user_id = '${req.params.userId}' GROUP by locations_info.locations_id ORDER by locations_info.locations_id) as army_prise_table ON army_prise_table.locations_id = locations_info.locations_id
+WHERE locations_info.locations_user_id = '${req.params.userId}'`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(results);
+    }
+  );
+});
+
+// Информация по ресурсам феоду NEW
+router.get('/feods-resources/:userId', function (req, res) {
+  // res.send('users');
+  res.header('Access-Control-Allow-Origin', '*');
+  pool.query(
+    `SELECT
+locations_info.locations_id,
+locations_info.locations_name,
+users.user_id,
+users.login
+locations_resource_id,
+iron,
+forest,
+skin,
+horse,
+food,
+money
+FROM locations_info 
+JOIN users ON users.user_id = locations_info.locations_user_id
+JOIN locations_resource ON locations_resource.locations_id = locations_info.locations_id
 WHERE locations_info.locations_user_id = '${req.params.userId}'`,
     function (err, results) {
       if (err) console.log(err);
