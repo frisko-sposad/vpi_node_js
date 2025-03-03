@@ -103,61 +103,61 @@ router.get('/feods/:userId', function (req, res) {
   console.log(res);
 });
 
-// Информация по рабочим доходы и затраты феоду NEW
-router.get('/feods-info/:userId', function (req, res) {
-  // res.send('users');
-  res.header('Access-Control-Allow-Origin', '*');
-  pool.query(
-    `SELECT 
-locations_info.locations_id,
-locations_info.locations_name,
-users.login,
-mines_peasent,
-mines_slave,
-mines_limits,
-forest_peasent,
-forest_slave,
-forest_limits,
-horses_peasent,
-horses_slave,
-horses_limits,
-skins_peasent,
-skins_slave,
-skins_limits,
-food_peasent,
-food_slave,
-food_limits,
-unused_peasents,
-unused_slaves,
-(mines_peasent + forest_peasent + horses_peasent + skins_peasent + food_peasent) as work_peasent,
-(mines_slave + forest_slave + horses_slave + skins_slave + food_slave) as work_slave,
-(mines_limits + forest_limits + skins_limits + horses_limits + food_limits) as work_limits,
-(mines_peasent + forest_peasent + skins_peasent + horses_peasent + food_peasent + unused_peasents) as all_peasent,
-(mines_slave + forest_slave + skins_slave + horses_slave + food_slave + unused_slaves) as all_slave,
-(mines_peasent + forest_peasent + horses_peasent + skins_peasent + food_peasent + unused_peasents + mines_slave + forest_slave + horses_slave + skins_slave + food_slave + unused_slaves) as all_peasent_and_slave,
-army_prise_table.army_number,
-army_prise_table.army_prise
-FROM locations_info 
-JOIN users ON users.user_id = locations_info.locations_user_id
-JOIN locations_production ON locations_production.locations_id = locations_info.locations_id
-JOIN (SELECT
-locations_info.locations_id,
-locations_info.locations_name,
-users.user_id,
-users.login,
-sum(units.unit_price * locations_army.locations_army_number) as army_prise,
-sum(locations_army.locations_army_number) as army_number FROM locations_info
-JOIN users ON users.user_id = locations_info.locations_user_id
-JOIN locations_army ON locations_army.locations_army_location_id = locations_info.locations_id
-JOIN units ON units.unit_id = locations_army.locations_army_unit_id
-WHERE locations_info.locations_user_id = '${req.params.userId}' GROUP by locations_info.locations_id ORDER by locations_info.locations_id) as army_prise_table ON army_prise_table.locations_id = locations_info.locations_id
-WHERE locations_info.locations_user_id = '${req.params.userId}'`,
-    function (err, results) {
-      if (err) console.log(err);
-      res.json(results);
-    }
-  );
-});
+// // Информация по рабочим доходы и затраты феоду NEW
+// router.get('/feods-info/:userId', function (req, res) {
+//   // res.send('users');
+//   res.header('Access-Control-Allow-Origin', '*');
+//   pool.query(
+//     `SELECT
+// locations_info.locations_id,
+// locations_info.locations_name,
+// users.login,
+// mines_peasent,
+// mines_slave,
+// mines_limits,
+// forest_peasent,
+// forest_slave,
+// forest_limits,
+// horses_peasent,
+// horses_slave,
+// horses_limits,
+// skins_peasent,
+// skins_slave,
+// skins_limits,
+// food_peasent,
+// food_slave,
+// food_limits,
+// unused_peasents,
+// unused_slaves,
+// (mines_peasent + forest_peasent + horses_peasent + skins_peasent + food_peasent) as work_peasent,
+// (mines_slave + forest_slave + horses_slave + skins_slave + food_slave) as work_slave,
+// (mines_limits + forest_limits + skins_limits + horses_limits + food_limits) as work_limits,
+// (mines_peasent + forest_peasent + skins_peasent + horses_peasent + food_peasent + unused_peasents) as all_peasent,
+// (mines_slave + forest_slave + skins_slave + horses_slave + food_slave + unused_slaves) as all_slave,
+// (mines_peasent + forest_peasent + horses_peasent + skins_peasent + food_peasent + unused_peasents + mines_slave + forest_slave + horses_slave + skins_slave + food_slave + unused_slaves) as all_peasent_and_slave,
+// army_prise_table.army_number,
+// army_prise_table.army_prise
+// FROM locations_info
+// JOIN users ON users.user_id = locations_info.locations_user_id
+// JOIN locations_production ON locations_production.locations_id = locations_info.locations_id
+// JOIN (SELECT
+// locations_info.locations_id,
+// locations_info.locations_name,
+// users.user_id,
+// users.login,
+// sum(units.unit_price * locations_army.locations_army_number) as army_prise,
+// sum(locations_army.locations_army_number) as army_number FROM locations_info
+// JOIN users ON users.user_id = locations_info.locations_user_id
+// JOIN locations_army ON locations_army.locations_army_location_id = locations_info.locations_id
+// JOIN units ON units.unit_id = locations_army.locations_army_unit_id
+// WHERE locations_info.locations_user_id = '${req.params.userId}' GROUP by locations_info.locations_id ORDER by locations_info.locations_id) as army_prise_table ON army_prise_table.locations_id = locations_info.locations_id
+// WHERE locations_info.locations_user_id = '${req.params.userId}'`,
+//     function (err, results) {
+//       if (err) console.log(err);
+//       res.json(results);
+//     }
+//   );
+// });
 
 // Информация по рабочим NEW
 router.get('/feods-info-worker/:userId', function (req, res) {
@@ -290,6 +290,29 @@ JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN locations_army ON locations_army.locations_army_location_id = locations_info.locations_id
 JOIN units ON units.unit_id = locations_army.locations_army_unit_id
 WHERE locations_info.locations_user_id = '${req.params.userId}' ORDER by locations_info.locations_id`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(results);
+    }
+  );
+});
+
+// Соседние феоды
+router.get('/feods-navigation/:userId', function (req, res) {
+  // res.send('users');
+  res.header('Access-Control-Allow-Origin', '*');
+  pool.query(
+    `SELECT
+path_graph_id,
+path_graph_location_id_from,
+li_from.locations_name,
+path_graph_location_id_to,
+li_to.locations_name,
+li_from.locations_user_id
+FROM path_graph
+JOIN locations_info as li_from ON path_graph.path_graph_location_id_from = li_from.locations_id
+JOIN locations_info as li_to  ON path_graph.path_graph_location_id_to = li_to.locations_id
+WHERE li_from.locations_user_id = '${req.params.userId}'`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
