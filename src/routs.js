@@ -330,34 +330,34 @@ WHERE units_squad_user_id = '${req.params.userId}' ORDER by locations_info.locat
   );
 });
 
-// // Информация по чужим отрядам в феоде игрока
-// router.get('/units_squad/:userId', function (req, res) {
-//   // res.send('users');
-//   res.header('Access-Control-Allow-Origin', '*');
-//   pool.query(
-//     `SELECT
-// locations_info.locations_id,
-// locations_info.locations_name,
-// users.user_id,
-// users.login,
-// units_squad_user_id,
-// number,
-// unit_name,
-// unit_price,
-// hero_id,
-// hero_name
-// FROM locations_info
-// JOIN users ON users.user_id = locations_info.locations_user_id
-// JOIN units_squad ON units_squad.squad_location_id = locations_info.locations_id
-// JOIN units ON units.unit_id = units_squad.units_squad_unit_id
-// JOIN heroes ON units_squad.units_squad_hero_id = heroes.hero_id
-// WHERE units_squad_user_id != '${req.params.userId}' ORDER by locations_info.locations_id`,
-//     function (err, results) {
-//       if (err) console.log(err);
-//       res.json(results);
-//     }
-//   );
-// });
+// Информация по чужим отрядам в феоде игрока
+router.get('/units_non_user_squad/:userId', function (req, res) {
+  // res.send('users');
+  res.header('Access-Control-Allow-Origin', '*');
+  pool.query(
+    `SELECT 
+locations_info.locations_id, 
+locations_info.locations_name, 
+users.user_id, 
+users.login, 
+units_squad_user_id,
+number,
+unit_name,
+unit_price, 
+hero_id,
+hero_name
+FROM locations_info 
+JOIN users ON users.user_id = locations_info.locations_user_id
+JOIN units_squad ON units_squad.squad_location_id = locations_info.locations_id
+JOIN units ON units.unit_id = units_squad.units_squad_unit_id
+JOIN heroes ON units_squad.units_squad_hero_id = heroes.hero_id
+WHERE units_squad_user_id != '${req.params.userId}' and and units_squad_user_id != '${req.params.userId}' ORDER by locations_info.locations_id`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(results);
+    }
+  );
+});
 
 // Соседние феоды
 router.get('/feods-navigation/:userId', function (req, res) {
