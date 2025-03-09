@@ -356,7 +356,7 @@ JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN units_squad ON units_squad.squad_location_id = locations_info.locations_id
 JOIN units ON units.unit_id = units_squad.units_squad_unit_id
 JOIN heroes ON units_squad.units_squad_hero_id = heroes.hero_id
-JOIN houses ON houses.house_id = users.house
+JOIN houses ON houses.house_id = units_squad_user_id
 WHERE users.user_id = '${req.params.userId}' and units_squad_user_id != '${req.params.userId}' ORDER by units_squad_user_id`,
     function (err, results) {
       if (err) console.log(err);
