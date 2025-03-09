@@ -287,12 +287,14 @@ locations_army.locations_army_number,
 units.unit_name,
 unit_price,
 hero_id,
+houses.house_name,
 hero_name
 FROM locations_info 
 JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN locations_army ON locations_army.locations_army_location_id = locations_info.locations_id
 JOIN units ON units.unit_id = locations_army.locations_army_unit_id
 JOIN heroes ON locations_army.locations_army_hero_id = heroes.hero_id
+JOIN houses ON houses.house_id = users.house
 WHERE locations_info.locations_user_id = '${req.params.userId}' ORDER by locations_info.locations_id`,
     function (err, results) {
       if (err) console.log(err);
@@ -316,12 +318,14 @@ number,
 unit_name,
 unit_price, 
 hero_id,
+houses.house_name,
 hero_name
 FROM locations_info 
 JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN units_squad ON units_squad.squad_location_id = locations_info.locations_id
 JOIN units ON units.unit_id = units_squad.units_squad_unit_id
 JOIN heroes ON units_squad.units_squad_hero_id = heroes.hero_id
+JOIN houses ON houses.house_id = users.house
 WHERE units_squad_user_id = '${req.params.userId}' ORDER by locations_info.locations_id`,
     function (err, results) {
       if (err) console.log(err);
@@ -338,19 +342,21 @@ router.get('/units_non_user_squad/:userId', function (req, res) {
     `SELECT 
 locations_info.locations_id, 
 locations_info.locations_name, 
-users.user_id, 
+users.user_id,
 users.login, 
 units_squad_user_id,
 number,
 unit_name,
 unit_price, 
 hero_id,
+houses.house_name,
 hero_name
 FROM locations_info 
 JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN units_squad ON units_squad.squad_location_id = locations_info.locations_id
 JOIN units ON units.unit_id = units_squad.units_squad_unit_id
 JOIN heroes ON units_squad.units_squad_hero_id = heroes.hero_id
+JOIN houses ON houses.house_id = users.house
 WHERE users.user_id = '${req.params.userId}' and units_squad_user_id != '${req.params.userId}' ORDER by units_squad_user_id`,
     function (err, results) {
       if (err) console.log(err);
