@@ -309,6 +309,8 @@ router.get('/units_squad/:userId', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
     `SELECT 
+locations_info.locations_id,
+locations_name,
 title,
 login,
 unit_name,
@@ -319,6 +321,7 @@ JOIN users ON users.user_id = units_group_of_squads.user_id
 JOIN units_squads ON units_squads.group_id = units_group_of_squads.group_id
 JOIN units ON units.unit_id = units_squads.units_squad_unit_id
 JOIN houses ON houses.house_id =users.house
+JOIN locations_info ON locations_info.locations_id = units_group_of_squads.locations_id
 WHERE users.user_id = '${req.params.userId}' ORDER by unit_name`,
     //     `SELECT
     // locations_info.locations_id,
