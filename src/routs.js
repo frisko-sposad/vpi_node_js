@@ -316,6 +316,7 @@ login,
 units_squads.user_id,
 unit_name,
 number,
+unit_price,
 house_name
 FROM units_squads
 JOIN users ON users.user_id = units_squads.user_id
