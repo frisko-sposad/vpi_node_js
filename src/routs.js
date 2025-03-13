@@ -313,15 +313,16 @@ locations_info.locations_id,
 locations_name,
 title,
 login,
+units_squads.user_id,
 unit_name,
 number,
 house_name
-FROM units_group_of_squads
-JOIN users ON users.user_id = units_group_of_squads.user_id
-JOIN units_squads ON units_squads.group_id = units_group_of_squads.group_id
-JOIN units ON units.unit_id = units_squads.units_squad_unit_id
+FROM units_squads
+JOIN users ON users.user_id = units_squads.user_id
+JOIN units_groups ON units_groups.squad_id = units_squads.squad_id
+JOIN units_info ON units_info.unit_id = units_groups.unit_id
 JOIN houses ON houses.house_id =users.house
-JOIN locations_info ON locations_info.locations_id = units_group_of_squads.locations_id
+JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
 WHERE users.user_id = '${req.params.userId}' ORDER by unit_name`,
     function (err, results) {
       if (err) console.log(err);
@@ -339,16 +340,17 @@ router.get('/units_heroes:userId', function (req, res) {
 locations_info.locations_id,
 locations_name,
 hero_name,
+heroes.user_id,
 heroes.house_id,
 title,
 login,
 house_name
-FROM units_group_of_squads
-JOIN users ON users.user_id = units_group_of_squads.user_id
-JOIN heroes ON heroes.group_id = units_group_of_squads.group_id
+FROM units_squads
+JOIN users ON users.user_id = units_squads.user_id
+JOIN heroes ON heroes.squad_id = units_squads.squad_id
 JOIN houses ON houses.house_id = heroes.house_id
-JOIN locations_info ON locations_info.locations_id = units_group_of_squads.locations_id
-WHERE users.user_id = '${req.params.userId}' ORDER by house_name`,
+JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
+WHERE heroes.user_id = '${req.params.userId}' `,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
@@ -366,20 +368,18 @@ locations_info.locations_id,
 locations_info.locations_name, 
 users.user_id,
 users.login, 
-units_squad_user_id,
 number,
 unit_name,
 unit_price, 
-hero_id,
 houses.house_name,
-hero_name
+units_squads.user_id as units_squads_user_id
 FROM locations_info 
 JOIN users ON users.user_id = locations_info.locations_user_id
-JOIN units_squad ON units_squad.squad_location_id = locations_info.locations_id
-JOIN units ON units.unit_id = units_squad.units_squad_unit_id
-JOIN heroes ON units_squad.units_squad_hero_id = heroes.hero_id
-JOIN houses ON houses.house_id = units_squad_user_id
-WHERE users.user_id = '${req.params.userId}' and units_squad_user_id != '${req.params.userId}' ORDER by house_name`,
+JOIN units_squads ON units_squads.locations_id = locations_info.locations_id
+JOIN units_groups ON units_groups.squad_id = units_squads.squad_id
+JOIN units_info ON units_info.unit_id = units_groups.unit_id
+JOIN houses ON houses.house_id = units_groups.group_id
+WHERE users.user_id = '${req.params.userId}' and units_squads.user_id != '${req.params.userId}' ORDER by house_name`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
