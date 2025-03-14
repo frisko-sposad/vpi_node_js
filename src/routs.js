@@ -275,7 +275,7 @@ WHERE locations_info.locations_user_id = '${req.params.userId}'`,
 // WHERE locations_info.locations_user_id = 2 GROUP by locations_info.locations_id ORDER by locations_info.locations_id
 
 // Информация по гарнизону феода
-router.get('/feods-garrison/:userId', function (req, res) {
+router.get('/feods_garrison/:userId', function (req, res) {
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
