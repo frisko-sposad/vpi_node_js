@@ -351,7 +351,7 @@ JOIN users ON users.user_id = units_squads.user_id
 JOIN houses ON houses.house_id =users.house
 JOIN heroes ON heroes.squad_id = units_squads.squad_id
 JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
-WHERE users.user_id = '${req.params.userId}' and squad_type ='${req.query.squadtype}' ORDER by hero_name`,
+WHERE users.user_id = '${req.params.userId}' and squad_type = 2 ORDER by hero_name`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
