@@ -275,27 +275,28 @@ WHERE locations_info.locations_user_id = '${req.params.userId}'`,
 // WHERE locations_info.locations_user_id = 2 GROUP by locations_info.locations_id ORDER by locations_info.locations_id
 
 // Информация по гарнизону феода
-router.get('/feods-army/:userId', function (req, res) {
+router.get('/feods-garrison/:userId', function (req, res) {
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
     `SELECT 
-locations_info.locations_id, 
-locations_info.locations_name, 
-users.user_id, users.login,  
-locations_army.locations_army_number,
-units.unit_name,
+locations_info.locations_id,
+locations_name,
+title,
+squad_type,
+login,
+units_squads.user_id,
+unit_name,
+number,
 unit_price,
-hero_id,
-houses.house_name,
-hero_name
-FROM locations_info 
-JOIN users ON users.user_id = locations_info.locations_user_id
-JOIN locations_army ON locations_army.locations_army_location_id = locations_info.locations_id
-JOIN units ON units.unit_id = locations_army.locations_army_unit_id
-JOIN heroes ON locations_army.locations_army_hero_id = heroes.hero_id
-JOIN houses ON houses.house_id = users.house
-WHERE locations_info.locations_user_id = '${req.params.userId}' ORDER by locations_info.locations_id`,
+house_name
+FROM units_squads
+JOIN users ON users.user_id = units_squads.user_id
+JOIN units_groups ON units_groups.squad_id = units_squads.squad_id
+JOIN units_info ON units_info.unit_id = units_groups.unit_id
+JOIN houses ON houses.house_id =users.house
+JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
+WHERE users.user_id = '${req.params.userId}' and squad_type = 1 ORDER by unit_name`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
@@ -312,6 +313,7 @@ router.get('/units_squad/:userId', function (req, res) {
 locations_info.locations_id,
 locations_name,
 title,
+squad_type,
 login,
 units_squads.user_id,
 unit_name,
@@ -324,7 +326,7 @@ JOIN units_groups ON units_groups.squad_id = units_squads.squad_id
 JOIN units_info ON units_info.unit_id = units_groups.unit_id
 JOIN houses ON houses.house_id =users.house
 JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
-WHERE users.user_id = '${req.params.userId}' ORDER by unit_name`,
+WHERE users.user_id = '${req.params.userId}' and squad_type = 2 ORDER by unit_name`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
