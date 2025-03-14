@@ -335,7 +335,7 @@ WHERE users.user_id = '${req.params.userId}' and squad_type = 2 ORDER by unit_na
 });
 
 // Информация по героям игрока
-router.get('/units_non_user_squad/:userId', function (req, res) {
+router.get('/squad_heroes/:userId', function (req, res) {
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
