@@ -280,6 +280,7 @@ router.get('/feods_garrison/:userId', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
     `SELECT 
+units_squads.squad_id,
 locations_info.locations_id,
 locations_name,
 title,
@@ -310,6 +311,7 @@ router.get('/units_squad/:userId', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
     `SELECT 
+units_squads.squad_id,    
 locations_info.locations_id,
 locations_name,
 title,
@@ -340,6 +342,7 @@ router.get('/squad_heroes/:userId', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
     `SELECT 
+units_squads.squad_id,    
 locations_info.locations_id,
 locations_name,
 login,
