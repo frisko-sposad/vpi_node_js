@@ -297,7 +297,7 @@ JOIN units_groups ON units_groups.squad_id = units_squads.squad_id
 JOIN units_info ON units_info.unit_id = units_groups.unit_id
 JOIN houses ON houses.house_id =users.house
 JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
-WHERE users.user_id = '${req.params.userId}' and squad_type = 1 ORDER by unit_name`,
+WHERE users.user_id = '${req.params.userId}' and squad_type = 1 ORDER by squad_id, unit_name`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
@@ -328,7 +328,7 @@ JOIN units_groups ON units_groups.squad_id = units_squads.squad_id
 JOIN units_info ON units_info.unit_id = units_groups.unit_id
 JOIN houses ON houses.house_id =users.house
 JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
-WHERE users.user_id = '${req.params.userId}' and squad_type = 2 ORDER by unit_name`,
+WHERE users.user_id = '${req.params.userId}' and squad_type = 2 ORDER by squad_id, unit_name`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
@@ -354,7 +354,7 @@ JOIN users ON users.user_id = units_squads.user_id
 JOIN houses ON houses.house_id =users.house
 JOIN heroes ON heroes.squad_id = units_squads.squad_id
 JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
-WHERE users.user_id = '${req.params.userId}' and squad_type = '${req.query.squad_type}' ORDER by squad_id`,
+WHERE users.user_id = '${req.params.userId}' and squad_type = '${req.query.squad_type}' ORDER by squad_id, hero_name`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
