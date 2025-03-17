@@ -395,8 +395,8 @@ JOIN users ON users.user_id = locations_info.locations_user_id
 JOIN units_squads ON units_squads.locations_id = locations_info.locations_id
 JOIN units_groups ON units_groups.squad_id = units_squads.squad_id
 JOIN units_info ON units_info.unit_id = units_groups.unit_id
-JOIN houses ON houses.house_id = units_groups.group_id
-WHERE users.user_id = '${req.params.userId}' and units_squads.user_id != '${req.params.userId}' ORDER by house_name`,
+JOIN houses ON houses.house_id = units_squads.user_id
+WHERE users.user_id =  '${req.params.userId}' and units_squads.user_id != '${req.params.userId}' ORDER by house_name`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
