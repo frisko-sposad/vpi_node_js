@@ -274,6 +274,19 @@ WHERE locations_info.locations_user_id = '${req.params.userId}'`,
 // JOIN units ON units.unit_id = locations_army.locations_army_unit_id
 // WHERE locations_info.locations_user_id = 2 GROUP by locations_info.locations_id ORDER by locations_info.locations_id
 
+// Список отрядов
+router.get('/user_squads/:userId', function (req, res) {
+  // res.send('users');
+  res.header('Access-Control-Allow-Origin', '*');
+  pool.query(
+    `SELECT * FROM units_squads WHERE user_id = '${req.params.userId}' ORDER by squad_type`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(results);
+    }
+  );
+});
+
 // Информация по гарнизону феода
 router.get('/feods_garrison/:userId', function (req, res) {
   // res.send('users');
