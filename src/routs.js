@@ -318,8 +318,8 @@ WHERE users.user_id = '${req.params.userId}' and squad_type = 1 ORDER by squad_i
   );
 });
 
-// Информация по отрядам игрока
-router.get('/units_squad/:userId', function (req, res) {
+// Информация по группам юнитов игрока
+router.get('/units_groups/:userId', function (req, res) {
   // res.send('users');
   res.header('Access-Control-Allow-Origin', '*');
   pool.query(
