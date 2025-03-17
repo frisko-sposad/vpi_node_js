@@ -73,19 +73,19 @@ router.get('/user/:userId', function (req, res) {
   console.log(res);
 });
 
-// Отряды
-router.get('/user_squads/:userId', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
-  console.log(req.params);
-  pool.query(
-    `SELECT heroes.hero_owner,heroes.hero_id, heroes.hero_name, locations.locations_name, units.unit_name, units_squad.number FROM units_squad JOIN (locations, heroes, units) ON ( units_squad.units_squad_hero_id = heroes.hero_id AND units_squad.squad_location_id = locations.locations_id AND units_squad.units_squad_unit_id = units.unit_id) WHERE heroes.hero_owner = '${req.params.userId}' ORDER BY heroes.hero_name ASC`,
-    function (err, results) {
-      if (err) console.log(err);
-      res.json(results);
-    }
-  );
-  console.log(res);
-});
+// // Отряды
+// router.get('/user_squads/:userId', function (req, res) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   console.log(req.params);
+//   pool.query(
+//     `SELECT heroes.hero_owner,heroes.hero_id, heroes.hero_name, locations.locations_name, units.unit_name, units_squad.number FROM units_squad JOIN (locations, heroes, units) ON ( units_squad.units_squad_hero_id = heroes.hero_id AND units_squad.squad_location_id = locations.locations_id AND units_squad.units_squad_unit_id = units.unit_id) WHERE heroes.hero_owner = '${req.params.userId}' ORDER BY heroes.hero_name ASC`,
+//     function (err, results) {
+//       if (err) console.log(err);
+//       res.json(results);
+//     }
+//   );
+//   console.log(res);
+// });
 
 // Информация по феоду
 router.get('/feods/:userId', function (req, res) {
