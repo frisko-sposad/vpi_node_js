@@ -287,36 +287,36 @@ router.get('/user_squads/:userId', function (req, res) {
   );
 });
 
-// Информация по гарнизону феода
-router.get('/feods_garrison/:userId', function (req, res) {
-  // res.send('users');
-  res.header('Access-Control-Allow-Origin', '*');
-  pool.query(
-    `SELECT 
-units_squads.squad_id,
-locations_info.locations_id,
-locations_name,
-title,
-squad_type,
-login,
-units_squads.user_id,
-unit_name,
-number,
-unit_price,
-house_name
-FROM units_squads
-JOIN users ON users.user_id = units_squads.user_id
-JOIN units_groups ON units_groups.squad_id = units_squads.squad_id
-JOIN units_info ON units_info.unit_id = units_groups.unit_id
-JOIN houses ON houses.house_id =users.house
-JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
-WHERE users.user_id = '${req.params.userId}' and squad_type = 1 ORDER by squad_id, unit_name`,
-    function (err, results) {
-      if (err) console.log(err);
-      res.json(results);
-    }
-  );
-});
+// // Информация по гарнизону феода
+// router.get('/feods_garrison/:userId', function (req, res) {
+//   // res.send('users');
+//   res.header('Access-Control-Allow-Origin', '*');
+//   pool.query(
+//     `SELECT
+// units_squads.squad_id,
+// locations_info.locations_id,
+// locations_name,
+// title,
+// squad_type,
+// login,
+// units_squads.user_id,
+// unit_name,
+// number,
+// unit_price,
+// house_name
+// FROM units_squads
+// JOIN users ON users.user_id = units_squads.user_id
+// JOIN units_groups ON units_groups.squad_id = units_squads.squad_id
+// JOIN units_info ON units_info.unit_id = units_groups.unit_id
+// JOIN houses ON houses.house_id =users.house
+// JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
+// WHERE users.user_id = '${req.params.userId}' ORDER by squad_id, unit_name`,
+//     function (err, results) {
+//       if (err) console.log(err);
+//       res.json(results);
+//     }
+//   );
+// });
 
 // Информация по группам юнитов игрока
 router.get('/units_groups/:userId', function (req, res) {
@@ -341,7 +341,7 @@ JOIN units_groups ON units_groups.squad_id = units_squads.squad_id
 JOIN units_info ON units_info.unit_id = units_groups.unit_id
 JOIN houses ON houses.house_id =users.house
 JOIN locations_info ON locations_info.locations_id = units_squads.locations_id
-WHERE users.user_id = '${req.params.userId}' and squad_type = 2 ORDER by squad_id, unit_name`,
+WHERE users.user_id = '${req.params.userId}' ORDER by squad_id, unit_name`,
     function (err, results) {
       if (err) console.log(err);
       res.json(results);
