@@ -427,6 +427,19 @@ WHERE li_from.locations_user_id = '${req.params.userId}'`,
   );
 });
 
+// select
+router.post('/select', async function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  const { locations_id, locations_name, locations_user_id } = await req.body;
+  console.log(locations_id, locations_name, locations_user_id);
+  pool.query(
+    `INSERT INTO locations_info (locations_id, 	locations_name, locations_user_id) VALUES (${locations_id}, '${locations_name}', '${locations_user_id}')`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(`Добавлен феод: login: ${login}`);
+    }
+  );
+});
 // добавить юзера
 router.post('/add_user', async function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
