@@ -443,10 +443,10 @@ router.post('/select', async function (req, res) {
 // добавить юзера
 router.post('/add_user', async function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
-  const { user_id, login, pass, role, info } = await req.body;
-  console.log(user_id, login, pass, role, info);
+  const { user_id, login, house } = await req.body;
+  console.log(user_id, login, house);
   pool.query(
-    `INSERT INTO users (user_id, login, pass, role, info) VALUES (${user_id}, '${login}', '${pass}', '${role}', '${info}')`,
+    `INSERT INTO users (user_id, login, house) VALUES (${user_id}, '${login}', '${pass}', '${role}', '${info}')`,
     function (err, results) {
       if (err) console.log(err);
       res.json(`Добавлен юзер: login: ${login}`);
