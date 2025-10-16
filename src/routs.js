@@ -446,7 +446,7 @@ router.post('/add_user', async function (req, res) {
   const { user_id, login, house } = await req.body;
   console.log(user_id, login, house);
   pool.query(
-    `INSERT INTO users (user_id, login, house) VALUES (${user_id}, '${login}', '${pass}', '${role}', '${info}')`,
+    `INSERT INTO users (user_id, login, house) VALUES (${user_id}, '${login}', '${house}')`,
     function (err, results) {
       if (err) console.log(err);
       res.json(`Добавлен юзер: login: ${login}`);
