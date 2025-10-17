@@ -17,46 +17,6 @@ router.get('/page1', function (req, res) {
   res.send('Page1');
 });
 
-// показать всех юзеров
-router.get('/users', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
-  // res.send('users');
-  pool.query('SELECT * FROM users', function (err, results) {
-    if (err) console.log(err);
-    console.log(results);
-    res.json(results);
-  });
-});
-
-// показать юзера по id
-router.get('/show_users/:userId', function (req, res) {
-  // res.send('users');
-  res.header('Access-Control-Allow-Origin', '*');
-  const { userId } = req.params;
-  pool.query(
-    `SELECT * FROM users WHERE user_id = ${userId}`,
-    function (err, results) {
-      if (err) console.log(err);
-      console.log(results);
-      res.json(results);
-    }
-  );
-});
-
-// Удалить юзера по id
-router.delete('/delete_users/:userId', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
-  // res.send('users');
-  const { userId } = req.params;
-  pool.query(
-    `DELETE FROM users WHERE user_id = ${userId}`,
-    function (err, results) {
-      if (err) console.log(err);
-      res.json(`Удалён юзер: id: ${userId}`);
-    }
-  );
-});
-
 // Персонажи и соседние феоды с кем граничит
 router.get('/user/:userId', function (req, res) {
   // res.send('users');
@@ -437,19 +397,6 @@ router.post('/select', async function (req, res) {
     function (err, results) {
       if (err) console.log(err);
       res.json(`Добавлен феод: login: ${login}`);
-    }
-  );
-});
-// добавить юзера
-router.post('/add_user', async function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
-  const { user_id, login, house } = await req.body;
-  console.log(user_id, login, house);
-  pool.query(
-    `INSERT INTO users (user_id, login, house) VALUES (${user_id}, '${login}', '${house}')`,
-    function (err, results) {
-      if (err) console.log(err);
-      res.json(`Добавлен юзер: login: ${login}`);
     }
   );
 });

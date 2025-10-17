@@ -1,5 +1,6 @@
 import express, { json } from 'express';
 import router from './src/routs.js';
+import user_routs from './src/user_routs.js';
 import cors from 'cors';
 
 var app = express();
@@ -9,6 +10,7 @@ app.use(cors());
 app.use(json());
 
 app.use('/', router);
+app.use('/', user_routs);
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
