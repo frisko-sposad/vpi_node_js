@@ -59,4 +59,22 @@ router.delete('/delete_users/:userId', function (req, res) {
   );
 });
 
+// Изменить юзера по id
+router.put('/update_users/:userId', async function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  // res.send('users');
+  console.log(req.params);
+
+  const { user_id, login, page_code } = await req.body;
+  console.log({ user_id, login, page_code });
+
+  pool.query(
+    `UPDATE users SET login = ${login}, page_code = ${page_code} WHERE user_id = ${user_id}`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json(`Изменён юзер: id: ${user_id}`);
+    }
+  );
+});
+
 export default router;
